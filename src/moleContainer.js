@@ -1,24 +1,28 @@
-import React, { useState } from 'react'; 
-import Mole from './Mole'
+import React from 'react'; 
+import Mole from './Mole';
 import EmptySlot from './EmptySlot';
 
-function MoleContainer(){
-    const [displayMole, setDisplayMole] = useState(false);
-    const[score, setScore]= useState(0)
+function MoleContainer(props){
+    const moleComponents = [];
 
+    // Nine Mole Containers
+    for(let i = 0; i < 9; i++){
+        // Random Selector
+        const isMole = Math.random() < 0.5;
 
-    const handleBoppedMole = () => { 
-        setScore(score + 1); //Adding +1 to score 
-        setDisplayMole(false); //Resetting displayMole
+        if (isMole) {
+            moleComponents.push(
+                <Mole key={i} setDisplayMole={props.setDisplayMole} handleClick={props.handleClick}/>
+            );
+        } else {
+            moleComponents.push(
+                <EmptySlot key={i} setDisplayMole={props.setDisplayMole} handleClick={props.handleClick}/>
+            );
+        }
     }
-
     return(
         <div>
-           {displayMole ? (
-            <Mole onClick={handleBoppedMole} />
-           ) : (
-            <EmptySlot/>
-           )} 
+            {moleComponents}
         </div>
     );
 }
